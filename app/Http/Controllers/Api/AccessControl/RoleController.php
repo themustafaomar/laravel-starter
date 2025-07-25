@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\AccessControl;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RoleResource;
-use App\Http\Requests\AccessControl\RoleRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class RoleController extends Controller
@@ -21,9 +21,28 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Role::class);
+
         return RoleResource::collection(
             Role::with('permissions')->latest()->get()
         );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * 
+     * @param \App\Http\Requests\RoleRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(RoleRequest $request)
+    {
+        $role = Role::create($request->validated());
+
+        if ($request->filled('permissions')) {
+            $role->permissions()->attach($request->permissions);
+        }
+
+        return response()->noContent();
     }
 
     /**
@@ -42,7 +61,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      * 
-     * @param \App\Http\Requests\AccessControl\RoleRequest $request
+     * @param \App\Http\Requests\RoleRequest $request
      * @param \App\Models\Role $role
      * @return \Illuminate\Http\Response
      */

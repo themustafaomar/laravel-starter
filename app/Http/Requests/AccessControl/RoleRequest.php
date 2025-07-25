@@ -1,6 +1,7 @@
+
 <?php
 
-namespace App\Http\Requests\AccessControl;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,7 +12,9 @@ class RoleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->can('update roles');
+        return $this->isMethod('PUT')
+            ? $this->user()->can('update roles')
+            : $this->user()->can('create roles');
     }
 
     /**
@@ -22,6 +25,7 @@ class RoleRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => ['required', 'string', 'max:100', 'unique:roles,name'.($this->isMethod('PUT') ? ','.$this->role->id : '')],
             'permissions' => ['required', 'array', 'exists:permissions,id'],
         ];
     }

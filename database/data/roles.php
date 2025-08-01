@@ -3,7 +3,7 @@
 return [
     'super admin' => [
         // There's no need to add 'create' and `delete` here
-        'roles' => ['read', 'update'],
+        'roles' => ['read', 'update', 'assign'],
         'permissions' => ['read'],
         'users' => '*',
         'settings' => '*',

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api\AccessControl;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleRequest;
-use App\Http\Resources\RoleResource;
+use App\Http\Requests\AccessControl\AssignRoleRequest;
 use App\Models\Role;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\RoleResource;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class RoleController extends Controller
 {
@@ -20,8 +23,6 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Role::class);
-
         return RoleResource::collection(
             Role::with('permissions')->latest()->get()
         );
@@ -62,7 +63,29 @@ class RoleController extends Controller
      */
     public function update(RoleRequest $request, Role $role)
     {
+        // We won't update the role name, cause we rely on this name
+        // internally for permission checks, so we only update permissions.
+        // If you need to update the role name, you can modify this logic accordingly.
+
         $role->syncPermissions($request->permissions);
+
+        return response()->ok();
+    }
+
+    /**
+     * Assign roles to a given user.
+     * 
+     * @return \Illuminate\Http\Resources\Json\JsonResource
+     */
+    public function assignRoles(AssignRoleRequest $request, User $user)
+    {
+        if ($user->hasRole('super admin')) {
+            throw new AuthorizationException('Cannot assign roles to a super admin.');
+        }
+
+        $this->authorize('assignRoles', Role::class);
+
+        $user->syncRoles($request->roles);
 
         return response()->ok();
     }

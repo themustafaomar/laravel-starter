@@ -17,6 +17,8 @@ Route::middleware('role:super admin|admin')
     ->except('destroy', 'store');
 Route::middleware('role:super admin|admin')
     ->get('/permissions', PermissionController::class);
+Route::middleware('role:super admin')
+    ->post('/roles/assign/{user}', RoleController::class.'@assignRoles');
 
 // --------------------------------------
 // Profile

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\AccessControl;
 
-use App\Models\Role;
-use Illuminate\Http\Request;
-use App\Http\Requests\RoleRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoleRequest;
 use App\Http\Resources\RoleResource;
+use App\Models\Role;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
@@ -15,8 +15,7 @@ class RoleController extends Controller
 
     /**
      * Display a listing of the resource.
-     * 
-     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function index(Request $request)
@@ -30,8 +29,7 @@ class RoleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * 
-     * @param \App\Http\Requests\RoleRequest $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(RoleRequest $request)
@@ -42,13 +40,12 @@ class RoleController extends Controller
             $role->permissions()->attach($request->permissions);
         }
 
-        return response()->noContent();
+        return response()->ok();
     }
 
     /**
      * Display the specified resource.
-     * 
-     * @param \App\Models\Role $role
+     *
      * @return \App\Http\Resources\RoleResource
      */
     public function show(Role $role)
@@ -60,15 +57,13 @@ class RoleController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * 
-     * @param \App\Http\Requests\RoleRequest $request
-     * @param \App\Models\Role $role
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(RoleRequest $request, Role $role)
     {
         $role->syncPermissions($request->permissions);
 
-        return response()->noContent();
+        return response()->ok();
     }
 }

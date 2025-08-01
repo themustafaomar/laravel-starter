@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
 
@@ -25,9 +25,7 @@ class PermissionTableSeeder extends Seeder
 
     /**
      * Assign permissions to each role.
-     * 
-     * @param string $role
-     * @param array $permissions
+     *
      * @return void
      */
     private function assign(string $role, array $permissions)
@@ -40,8 +38,7 @@ class PermissionTableSeeder extends Seeder
 
     /**
      * Generate all permissions with its own role name.
-     * 
-     * @param array $permissions
+     *
      * @return void
      */
     private function createPermissions(array $permissions)
@@ -62,10 +59,6 @@ class PermissionTableSeeder extends Seeder
 
     /**
      * Normalize permissions list.
-     * 
-     * @param array|string $permissions
-     * @param string $key
-     * @return array
      */
     private function normalizePermissions(array|string $permissions, string $key): array
     {

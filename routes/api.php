@@ -1,11 +1,11 @@
 
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\AccessControl\RoleController;
 use App\Http\Controllers\Api\AccessControl\PermissionController;
+use App\Http\Controllers\Api\AccessControl\RoleController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 require_once __DIR__.'/auth.php';
 
@@ -22,7 +22,7 @@ Route::middleware('role:super admin|admin')
 // Profile
 // --------------------------------------
 Route::post('/profile', ProfileController::class.'@index');
-Route::post('/profile/user', ProfileController::class.'@user');
+Route::get('/profile/user', ProfileController::class.'@user');
 Route::post('/profile/avatar', ProfileController::class.'@changeAvatar');
 Route::post('/profile/update-password', ProfileController::class.'@updatePassword');
 

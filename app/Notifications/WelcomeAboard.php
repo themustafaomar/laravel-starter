@@ -35,10 +35,10 @@ class WelcomeAboard extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('We\'re excited to have you join us! 🚀.')
-                    ->line('Your account has been created successfully, let\'s make amazing things happen together.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('We\'re excited to have you join us! 🚀.')
+            ->line('Your account has been created successfully, let\'s make amazing things happen together.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -51,7 +51,7 @@ class WelcomeAboard extends Notification implements ShouldQueue
         return [
             'title' => 'We\'re excited to have you join us! 🚀.',
             'description' => 'Your account has been created successfully, let\'s make amazing things happen together',
-            'template' => 'Default'
+            'template' => 'Default',
         ];
     }
 }

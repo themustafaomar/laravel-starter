@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Profile;
 
-use Illuminate\Validation\Rules\File;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class AvatarRequest extends FormRequest
 {

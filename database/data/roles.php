@@ -19,6 +19,6 @@ return [
         'permissions' => ['read'],
         'users' => ['read'],
         'settings' => ['read'],
-    ]
+    ],
     // Add as many roles as you want.
 ];
